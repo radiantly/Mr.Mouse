@@ -3,8 +3,9 @@
 }
 
 :root {
-  --heading: #1a202c;
-  --muted: #4a5568;
+  --heading: #221f1a;
+  --muted: #5e5951;
+  --v-light: #e0802113;
 }
 
 html,
@@ -17,14 +18,24 @@ body {
 }
 
 body {
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--muted);
+  background-image: url("tiled-bg-wallp.jpg");
 }
 
-body > p {
+.middle {
+  background-color: white;
+  padding: 2rem 3rem;
+  min-height: 100vh;
+  z-index: 99;
+  box-shadow: 0 0 10px #221f1a;
+  display: flex;
+  flex-direction: column;
+}
+
+.middle > p {
   max-width: 600px;
   text-align: center;
 }
@@ -36,8 +47,6 @@ h1 {
   text-align: center;
   font-family: Barlow;
   color: var(--heading);
-  background-color: rgba(255, 255, 255, 0.6);
-  text-shadow: 1px 1px 5px white;
   z-index: 9;
 }
 
@@ -47,7 +56,7 @@ h1 {
   top: 0;
   left: 0;
   margin-top: -70px;
-  margin-left: 20vw;
+  margin-left: 10vw;
   transform: rotate(25deg);
   overflow: hidden;
   pointer-events: none;
@@ -59,8 +68,7 @@ h1 {
   bottom: 0;
   right: 0;
   margin-bottom: -70px;
-  margin-right: 20vw;
-  /* transform: rotate(15deg); */
+  margin-right: 10vw;
   position: fixed;
   overflow: hidden;
   pointer-events: none;
@@ -76,7 +84,6 @@ h1 {
   width: 100px;
   display: flex;
   flex-direction: column;
-  /* font-size: 0.9rem; */
   gap: 5px;
 }
 
@@ -114,12 +121,12 @@ a.active::after {
 }
 
 .side {
-  background-color: rgba(180, 180, 180, 0.1);
+  background-color: var(--v-light);
 }
 
 .grid .inter,
 .end {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--muted);
 }
 
 .para {
