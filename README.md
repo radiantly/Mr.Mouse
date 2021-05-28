@@ -1,2 +1,3 @@
-# mister-mouse
-Learn JavaScript the *fun* way!
+# Mr. Mouse
+
+Learn JavaScript the _fun_ way!
