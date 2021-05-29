@@ -93,10 +93,14 @@ const state = {
   _activeL: null,
   set activeL(level) {
     if (level === state._activeL) return;
-    if (state._activeL) $id(state._activeL).classList.remove("active");
+    if (state._activeL) {
+      $id(state._activeL).classList.remove("active");
+      document.body.classList.remove(state._activeL);
+    }
     state._activeL = level;
     location.hash = level;
     $id(state._activeL).classList.add("active");
+    document.body.classList.add(state._activeL);
   },
   solved: ["L0"],
 };
@@ -116,4 +120,11 @@ Array.from($all("a[id^=L]")).forEach((elem) => {
   elem.setAttribute("title", `Play ${elem.id}`);
   elem.href = `#${elem.id}`;
   elem.addEventListener("click", inlinkHandler);
+});
+
+const cm = CodeMirror.fromTextArea($id("console"), {
+  lineNumbers: true,
+  mode: "javascript",
+  theme: "default height",
+  matchBrackets: true
 });
