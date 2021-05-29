@@ -93,7 +93,8 @@ const cm = CodeMirror.fromTextArea($id("console"), {
   lineNumbers: true,
   mode: "javascript",
   theme: "default height",
-  matchBrackets: true
+  matchBrackets: true,
+  placeholder: "Type your code here!"
 });
 
 // Level Selector

@@ -3,7 +3,7 @@
 }
 
 :root {
-  --heading: #221f1a;
+  --heading: #332d23;
   --muted: #5e5951;
   --v-light: #e0802113;
 }
@@ -35,10 +35,10 @@ body {
   box-shadow: 0 0 10px #221f1a;
   display: flex;
   flex-direction: column;
+  width: 700px;
 }
 
-.middle > p {
-  max-width: 600px;
+.intro {
   text-align: center;
 }
 
@@ -149,12 +149,18 @@ a.active::after {
 }
 
 .para {
-  margin-top: 2rem;
   width: 100%;
   text-align: left;
+  line-height: 28px;
+}
+
+h2 {
+  font-family: Barlow;
+  color: var(--heading);
 }
 
 body:not(.L0) .only-L0,
+body:not(.L1) .only-L1,
 body.L0 .not-L0 {
   display: none;
 }
@@ -183,7 +189,6 @@ a.start-game:hover {
   box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
   border-radius: 5px;
   border: 1px solid rgba(34,36,38,.15);
-  margin: 2rem 0;
 }
 
 .cm-s-height {
@@ -191,9 +196,17 @@ a.start-game:hover {
 }
 
 .CodeMirror * {
-  font-family: "Fira Code";
+  font-family: "Fira Code", monospace;
 }
 
-.CodeMirror-lines {
-  padding: 10px;
+.CodeMirror-empty { 
+  color: #999 !important; 
+}
+
+span.code {
+  font-family: "Fira Code", monospace;
+  border: 1px solid var(--muted);
+  border-radius: 3px;
+  padding: 1px 5px;
+  background-color: var(--v-light);
 }

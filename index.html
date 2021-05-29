@@ -15,7 +15,7 @@
   <body class="L0">
     <div class="middle">
       <h1>Mr. Mouse: Learn JavaScript the <em>fun</em> way</h1>
-      <p>
+      <p class="intro">
         Mr. Mouse needs your help getting to the only thing he's ever wanted in
         life—cheese! However, to tell him where to go, we'll need a bit of
         JavaScript ✨
@@ -31,7 +31,16 @@
         </div>
         <div class="grid"></div>
       </div>
-      <div class="para"></div>
+      <div class="para">
+        <div class="only-L1">
+          <h2>Level 1</h2>
+          <p>Mr. Mouse desperately wants some cheese to eat! To guide him to the cheese, you need can give him four directions <span class="code">Up</span>, <span class="code">Down</span>, <span class="code">Right</span> and <span class="code">Left</span>. However, to tell him which direction to go, you'll need to use <span class="code">console.log("DIRECTION");</span>
+          </p>
+          <p>For example, if you'd like him to go left, then you would type <span class="code">console.log("Left");</span></p>
+          <p>Type the instructions you'd like to give Mr. Mouse below in the console!</p>
+        </div>
+      </div>
+      <h2 class="not-L0">Code Console!</h2>
       <div class="console-wrap not-L0">
         <textarea class="console" id="console"></textarea>
       </div>
@@ -42,6 +51,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/addon/edit/matchbrackets.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/addon/display/placeholder.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
