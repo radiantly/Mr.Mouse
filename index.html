@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/codemirror.min.css">
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="L0">
     <div class="middle">
       <h1>Mr. Mouse: Learn JavaScript the <em>fun</em> way</h1>
       <p>
@@ -22,19 +22,16 @@
       </p>
       <div class="container">
         <div class="sidebar">
-          <a id="L0">Home</a>
-          <a id="L1">Level 1</a>
-          <a id="L2">Level 2</a>
-          <a id="L3">Level 3</a>
-          <a id="L4">Level 4</a>
-          <a id="L5">Level 5</a>
+          <a class="active" id="L0" href="#L0">Home</a>
+          <a id="L1" href="#L1">Level 1</a>
+          <a id="L2" href="#L2">Level 2</a>
+          <a id="L3" href="#L3">Level 3</a>
+          <a id="L4" href="#L4">Level 4</a>
+          <a id="L5" href="#L5">Level 5</a>
         </div>
         <div class="grid"></div>
       </div>
-      <div class="para only-L0">
-        Well, what are we waiting for? Time to head to
-        <a id="L1">Level 1</a>!
-      </div>
+      <div class="para"></div>
       <div class="console-wrap not-L0">
         <textarea class="console" id="console"></textarea>
       </div>

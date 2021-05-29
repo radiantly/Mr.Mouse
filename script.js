@@ -10,7 +10,7 @@ const gr = [];
 
 const initGrid = (mpos = { x: 8, y: 4 }, cpos = { x: 4, y: 6 }) => {
   // Empty grid if dirty
-  grid.innerHTML = "";
+  grid.innerHTML = `<a href="#L1" class="start-game only-L0"><div><h2>START GAME</h2></div></a>`;
 
   // Add grid elements
   for (let row = 0; row <= rows; row++) {
@@ -87,10 +87,19 @@ initGrid({ x: 7, y: 5 }, { x: 4, y: 7 });
 //   }
 // }
 
+const getL = text => text?.match(/L\d/)?.[0];
+
+const cm = CodeMirror.fromTextArea($id("console"), {
+  lineNumbers: true,
+  mode: "javascript",
+  theme: "default height",
+  matchBrackets: true
+});
+
 // Level Selector
 const inlinks = Array.from(document.querySelectorAll(".sidebar > a"));
 const state = {
-  _activeL: null,
+  _activeL: "L0",
   set activeL(level) {
     if (level === state._activeL) return;
     if (state._activeL) {
@@ -101,6 +110,7 @@ const state = {
     location.hash = level;
     $id(state._activeL).classList.add("active");
     document.body.classList.add(state._activeL);
+    cm.refresh();
   },
   solved: ["L0"],
 };
@@ -109,22 +119,16 @@ const inlinkHandler = (e) => {
   state.activeL = e.target.id;
 };
 
-state.activeL = location.hash?.match(/L\d/)?.[0] || "L0";
+state.activeL = getL(location.hash) || "L0";
 
 for (const inlink of inlinks) {
   if (!state.solved.includes(inlink.id)) inlink.classList.add("unsolved");
 }
 
-Array.from($all("a[id^=L]")).forEach((elem) => {
-  elem.setAttribute("href", `#${elem.id}`);
-  elem.setAttribute("title", `Play ${elem.id}`);
-  elem.href = `#${elem.id}`;
-  elem.addEventListener("click", inlinkHandler);
-});
-
-const cm = CodeMirror.fromTextArea($id("console"), {
-  lineNumbers: true,
-  mode: "javascript",
-  theme: "default height",
-  matchBrackets: true
+document.addEventListener("click", e => {
+  const anchorElem = e.target.closest("a");
+  if (getL(anchorElem?.href)) {
+    e.preventDefault();
+    state.activeL = getL(anchorElem.href);
+  }
 });

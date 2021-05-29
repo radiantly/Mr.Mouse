@@ -24,6 +24,7 @@ body {
   color: var(--muted);
   background: url("tiled-bg-wallp.jpg");
   height: fit-content;
+  overflow-y: scroll;
 }
 
 .middle {
@@ -92,6 +93,7 @@ a {
   color: #0077aa;
   text-decoration: none;
   cursor: pointer;
+  outline: none;
 }
 
 a.unsolved {
@@ -149,13 +151,32 @@ a.active::after {
 .para {
   margin-top: 2rem;
   width: 100%;
-  max-width: 600px;
   text-align: left;
 }
 
 body:not(.L0) .only-L0,
 body.L0 .not-L0 {
   display: none;
+}
+
+a.start-game {
+  text-align: center;
+  text-decoration: 5px dotted var(--muted) underline;
+  grid-area: 2 / 2 / span 19 / span 19;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+  transition: all .2s ease;
+}
+
+a.start-game:hover {
+  color: #968262;
+  text-decoration: 5px dotted #968262 underline;
 }
 
 .console-wrap {
