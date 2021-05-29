@@ -116,8 +116,10 @@ a.active::after {
   display: grid;
   --rows: 11;
   --gap: 5px;
-  grid-template-columns: repeat(var(--rows), var(--gap) 1fr) var(--gap);
-  grid-template-rows: repeat(var(--rows), var(--gap) 1fr) var(--gap);
+  grid-template-columns: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(
+      --gap
+    );
+  grid-template-rows: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(--gap);
 }
 
 .side {
@@ -133,6 +135,16 @@ a.active::after {
 .grid .inter,
 .end {
   background-color: var(--muted);
+}
+
+.mouse-img {
+  max-width: 99%;
+  max-height: 99%;
+}
+
+.cheese-img {
+  max-width: 99%;
+  max-height: 99%;
 }
 
 .para {
