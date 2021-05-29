@@ -90,19 +90,23 @@ initGrid({ x: 7, y: 5 }, { x: 4, y: 7 });
 // Level Selector
 const inlinks = Array.from(document.querySelectorAll(".sidebar > a"));
 const state = {
-  activeL: "L0",
+  _activeL: null,
+  set activeL(level) {
+    if (level === state._activeL) return;
+    if (state._activeL) $id(state._activeL).classList.remove("active");
+    state._activeL = level;
+    location.hash = level;
+    $id(state._activeL).classList.add("active");
+  },
   solved: ["L0"],
-};
-const setActive = (level) => {
-  if (level === state.activeL) return;
-  $id(state.activeL).classList.remove("active");
-  state.activeL = level;
-  $id(state.activeL).classList.add("active");
 };
 
 const inlinkHandler = (e) => {
-  setActive(e.target.id);
+  state.activeL = e.target.id;
 };
+
+state.activeL = location.hash?.match(/L\d/)?.[0] || "L0";
+
 for (const inlink of inlinks) {
   if (!state.solved.includes(inlink.id)) inlink.classList.add("unsolved");
 }
@@ -111,7 +115,5 @@ Array.from($all("a[id^=L]")).forEach((elem) => {
   elem.setAttribute("href", `#${elem.id}`);
   elem.setAttribute("title", `Play ${elem.id}`);
   elem.href = `#${elem.id}`;
-  elem.addEventListener("click", (e) => {
-    setActive(e.target.id);
-  });
+  elem.addEventListener("click", inlinkHandler);
 });

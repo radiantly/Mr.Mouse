@@ -22,7 +22,7 @@ body {
   flex-direction: column;
   align-items: center;
   color: var(--muted);
-  background-image: url("tiled-bg-wallp.jpg");
+  background: url("tiled-bg-wallp.jpg");
 }
 
 .middle {
@@ -137,14 +137,12 @@ a.active::after {
   background-color: var(--muted);
 }
 
-.mouse-img {
-  max-width: 99%;
-  max-height: 99%;
-}
-
+.mouse-img,
 .cheese-img {
   max-width: 99%;
   max-height: 99%;
+  justify-self: center;
+  align-self: center;
 }
 
 .para {
