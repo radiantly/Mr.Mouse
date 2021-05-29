@@ -114,14 +114,20 @@ a.active::after {
   height: var(--side);
   width: var(--side);
   display: grid;
-  --rows: 10;
-  --gap: 6px;
+  --rows: 11;
+  --gap: 5px;
   grid-template-columns: repeat(var(--rows), var(--gap) 1fr) var(--gap);
   grid-template-rows: repeat(var(--rows), var(--gap) 1fr) var(--gap);
 }
 
 .side {
   background-color: var(--v-light);
+}
+
+.grid .number {
+  justify-self: center;
+  align-self: center;
+  font-size: 20px;
 }
 
 .grid .inter,
