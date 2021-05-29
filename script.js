@@ -10,7 +10,7 @@ const gr = [];
 
 const initGrid = (mpos = { x: 8, y: 4 }, cpos = { x: 4, y: 6 }) => {
   // Empty grid if dirty
-  grid.innerHTML = `<a href="#L1" class="start-game only-L0"><div><h2>START GAME</h2></div></a>`;
+  grid.innerHTML = `<a href="#L1" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
 
   // Add grid elements
   for (let row = 0; row <= rows; row++) {
