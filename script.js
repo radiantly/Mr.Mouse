@@ -133,3 +133,32 @@ document.addEventListener("click", e => {
     state.activeL = getL(anchorElem.href);
   }
 });
+
+$(".run-btn").addEventListener("click", e => {
+  const f = (...args) => {
+    const out = args.map(arg => arg?.toString() || "").join(" ");
+    if (!out) out = "&nbsp;"
+    window.console.info("hi", args);
+    const textDiv = document.createElement("div");
+    textDiv.classList.add("out", "text");
+    textDiv.innerText = out;
+    $(".output-here").appendChild(textDiv);
+  }
+  const console = {
+    log: f,
+    info: f,
+    error: f
+  }
+  const code = cm.getValue();
+  window.console.info("hello!", code);
+  $(".output-here").innerHTML = "";
+  $(".output-box").classList.remove("hidden");
+  try {
+    eval(code);
+  } catch(ex) {
+    const errorDiv = document.createElement("div");
+    errorDiv.classList.add("error", "text");
+    errorDiv.innerText = ex;
+    $(".output-here").appendChild(errorDiv);
+  }
+});
