@@ -117,11 +117,6 @@ const levelInfo = {
   },
 };
 
-const initLvl = level => {
-  initGrid(levelInfo[level]);
-  Object.assign(state, deepClone(levelInfo[level]));
-}
-
 const getL = text => {
   const L = text?.match(/L\d/)?.[0];
   if (L) return L;
@@ -135,6 +130,11 @@ const cm = CodeMirror.fromTextArea($id("console"), {
   matchBrackets: true,
   placeholder: "Type your code here!"
 });
+
+const initLvl = level => {
+  initGrid(levelInfo[level]);
+  Object.assign(state, deepClone(levelInfo[level]));
+}
 
 // Level Selector
 const inlinks = Array.from(document.querySelectorAll(".sidebar > a"));
@@ -154,6 +154,8 @@ state = {
     $(".output-box").classList.add("hidden");
     initLvl(level);
     cm.refresh();
+    cm.setValue("");
+    $all(".hide-on-run").map(elem => elem.setAttribute("open", true));
   },
   solved: ["L0"],
   rotation: 0
@@ -203,9 +205,9 @@ const inlinkHandler = (e) => {
 
 state.activeL = getL(location.hash) || "L0";
 
-for (const inlink of inlinks) {
-  if (!state.solved.includes(inlink.id)) inlink.classList.add("unsolved");
-}
+// for (const inlink of inlinks) {
+//   if (!state.solved.includes(inlink.id)) inlink.classList.add("unsolved");
+// }
 
 document.addEventListener("click", e => {
   const anchorElem = e.target.closest("a");
