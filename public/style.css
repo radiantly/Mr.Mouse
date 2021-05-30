@@ -185,6 +185,8 @@ h2 {
 .hidden,
 body:not(.L0) .only-L0,
 body:not(.L1) .only-L1,
+body:not(.completed) .completed,
+body.completed .not-completed,
 body.L0 .not-L0 {
   display: none;
 }

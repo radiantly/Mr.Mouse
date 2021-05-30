@@ -3,7 +3,7 @@ const $id = (idText) => document.getElementById(idText);
 const $all = (selector) => Array.from(document.querySelectorAll(selector));
 
 const sleep = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
-
+const deepClone = obj => JSON.parse(JSON.stringify(obj));
 const grid = document.querySelector(".grid");
 
 const rows = 10;
@@ -14,8 +14,8 @@ let state = {};
 
 const initGrid = ({mpos, cpos} = {}) => {
   // Empty grid if dirty
-  grid.innerHTML = `<a href="#L1" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
-
+  grid.innerHTML = `<a href="#LN" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
+  grid.insertAdjacentHTML("beforeend", `<a href="#LN" class="game-overlay completed"><div><h2>NEXT LEVEL</h2></div></a>`)
   // Add grid elements
   for (let row = 0; row <= rows; row++) {
     for (let col = 0; col <= rows; col++) {
@@ -95,17 +95,17 @@ const levelInfo = {
     cpos: { x: 4, y: 7 }
   },
   L1: {
-    mpos: { x: 7, y: 5 },
+    mpos: { x: 6, y: 6 },
     cpos: { x: 4, y: 7 }
   },
 };
 
 const initLvl = level => {
   initGrid(levelInfo[level]);
-  state.mpos = levelInfo[level].mpos;
+  Object.assign(state, deepClone(levelInfo[level]));
 }
 
-const getL = text => text?.match(/L\d/)?.[0];
+const getL = text => text?.match(/L\d/)?.[0] || text?.match(/LN/) ? `L${1 + parseInt(state._activeL.slice(1))}` : null;
 
 const cm = CodeMirror.fromTextArea($id("console"), {
   lineNumbers: true,
@@ -124,7 +124,7 @@ state = {
     if (level === state._activeL) return;
     if (state._activeL) {
       $id(state._activeL).classList.remove("active");
-      document.body.classList.remove(state._activeL);
+      document.body.classList.remove(state._activeL, "completed");
     }
     state._activeL = level;
     location.hash = level;
@@ -189,6 +189,7 @@ for (const inlink of inlinks) {
 document.addEventListener("click", e => {
   const anchorElem = e.target.closest("a");
   if (getL(anchorElem?.href)) {
+    console.log(getL(anchorElem.href))
     e.preventDefault();
     state.activeL = getL(anchorElem.href);
   }
@@ -208,6 +209,11 @@ $(".run-btn").addEventListener("click", e => {
     resultDiv.classList.add("result");
     resultDiv.innerText = result;
     $(".output-here").appendChild(resultDiv);
+    window.console.info(state.mpos, state.cpos, state.cpos === state.mpos)
+    if (state.cpos.x === state.mpos.x && state.cpos.y === state.mpos.y) {
+      document.body.classList.add("completed");
+      throw "Level Complete!";
+    }
     await sleep(1000);
   }
   const console = {
