@@ -1,6 +1,8 @@
 const $ = (selector) => document.querySelector(selector);
-const $all = (selector) => document.querySelectorAll(selector);
 const $id = (idText) => document.getElementById(idText);
+const $all = (selector) => Array.from(document.querySelectorAll(selector));
+
+const sleep = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
 const grid = document.querySelector(".grid");
 
@@ -8,7 +10,9 @@ const rows = 10;
 const elems = 2 * rows + 1;
 const gr = [];
 
-const initGrid = (mpos = { x: 8, y: 4 }, cpos = { x: 4, y: 6 }) => {
+let state = {};
+
+const initGrid = ({mpos, cpos} = {}) => {
   // Empty grid if dirty
   grid.innerHTML = `<a href="#L1" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
 
@@ -71,8 +75,6 @@ const initGrid = (mpos = { x: 8, y: 4 }, cpos = { x: 4, y: 6 }) => {
   grid.appendChild(cheese);
 };
 
-initGrid({ x: 7, y: 5 }, { x: 4, y: 7 });
-
 // for (let row = 0; row < elems; row++) {
 //   for (let col = 0; col < elems; col++) {
 //     const elem = document.createElement("div");
@@ -87,6 +89,22 @@ initGrid({ x: 7, y: 5 }, { x: 4, y: 7 });
 //   }
 // }
 
+const levelInfo = {
+  L0: {
+    mpos: { x: 7, y: 5 },
+    cpos: { x: 4, y: 7 }
+  },
+  L1: {
+    mpos: { x: 7, y: 5 },
+    cpos: { x: 4, y: 7 }
+  },
+};
+
+const initLvl = level => {
+  initGrid(levelInfo[level]);
+  state.mpos = levelInfo[level].mpos;
+}
+
 const getL = text => text?.match(/L\d/)?.[0];
 
 const cm = CodeMirror.fromTextArea($id("console"), {
@@ -99,7 +117,8 @@ const cm = CodeMirror.fromTextArea($id("console"), {
 
 // Level Selector
 const inlinks = Array.from(document.querySelectorAll(".sidebar > a"));
-const state = {
+state = {
+  ...state,
   _activeL: "L0",
   set activeL(level) {
     if (level === state._activeL) return;
@@ -111,9 +130,50 @@ const state = {
     location.hash = level;
     $id(state._activeL).classList.add("active");
     document.body.classList.add(state._activeL);
+    $(".output-box").classList.add("hidden");
+    initLvl(level);
     cm.refresh();
   },
   solved: ["L0"],
+  rotation: 0
+};
+
+const commandExecutor = async (command) => {
+  window.console.info(state);
+  command = command.toLowerCase();
+  if (!["left", "right", "up", "down"].includes(command))
+    return "Mr. Mouse is ignoring this.";
+  if (command === "left") {
+    if (state.mpos.x === 1) return "Oh no! There's a wall!";
+    state.mpos.x--;
+    $(".mouseWrap").style.gridArea = `${state.mpos.y * 2} / ${state.mpos.x * 2} / span 1 / span 1`;
+    $(".mouse-img").classList.remove("up", "down", "right", "left");
+    return "Mr. Mouse moved left!"
+  }
+  
+  if (command === "right") {
+    if (state.mpos.x === rows) return "Oh no! There's a wall!";
+    state.mpos.x++;
+    $(".mouseWrap").style.gridArea = `${state.mpos.y * 2} / ${state.mpos.x * 2} / span 1 / span 1`;
+    $(".mouse-img").classList.remove("up", "down", "right", "left");
+    return "Mr. Mouse moved right!"
+  }
+
+  if (command === "up") {
+    if (state.mpos.y === 1) return "Oh no! There's a wall!";
+    state.mpos.y--;
+    $(".mouseWrap").style.gridArea = `${state.mpos.y * 2} / ${state.mpos.x * 2} / span 1 / span 1`;
+    $(".mouse-img").classList.remove("up", "down", "right", "left");
+    return "Mr. Mouse moved up!"
+  }
+
+  if (command === "down") {
+    if (state.mpos.y === rows) return "Oh no! There's a wall!";
+    state.mpos.y++;
+    $(".mouseWrap").style.gridArea = `${state.mpos.y * 2} / ${state.mpos.x * 2} / span 1 / span 1`;
+    $(".mouse-img").classList.remove("up", "down", "right", "left");
+    return "Mr. Mouse moved down!"
+  }
 };
 
 const inlinkHandler = (e) => {
@@ -135,7 +195,7 @@ document.addEventListener("click", e => {
 });
 
 $(".run-btn").addEventListener("click", e => {
-  const f = (...args) => {
+  const f = async (...args) => {
     const out = args.map(arg => arg?.toString() || "").join(" ");
     if (!out) out = "&nbsp;"
     window.console.info("hi", args);
@@ -143,6 +203,12 @@ $(".run-btn").addEventListener("click", e => {
     textDiv.classList.add("out", "text");
     textDiv.innerText = out;
     $(".output-here").appendChild(textDiv);
+    const result = await commandExecutor(out);
+    const resultDiv = document.createElement("div");
+    resultDiv.classList.add("result");
+    resultDiv.innerText = result;
+    $(".output-here").appendChild(resultDiv);
+    await sleep(1000);
   }
   const console = {
     log: f,
@@ -150,11 +216,14 @@ $(".run-btn").addEventListener("click", e => {
     error: f
   }
   const code = cm.getValue();
-  window.console.info("hello!", code);
+  // window.console.info("hello!", code);
+  $all(".hide-on-run").map(elem => elem.removeAttribute("open"));
   $(".output-here").innerHTML = "";
   $(".output-box").classList.remove("hidden");
+  const codeToExec = `(async () => {${code.replace(/(?:await )?(console\.log)/g, "await $1")}})()`;
+  window.console.log(codeToExec);
   try {
-    eval(code);
+    eval(codeToExec);
   } catch(ex) {
     const errorDiv = document.createElement("div");
     errorDiv.classList.add("error", "text");
@@ -162,3 +231,5 @@ $(".run-btn").addEventListener("click", e => {
     $(".output-here").appendChild(errorDiv);
   }
 });
+
+initLvl("L0");

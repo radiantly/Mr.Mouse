@@ -141,12 +141,33 @@ a.active::after {
   background-color: var(--muted);
 }
 
+.mouseWrap {
+  display: flex;
+}
+
 .mouse-img,
 .cheese-img {
   max-width: 99%;
   max-height: 99%;
   justify-self: center;
   align-self: center;
+  transition: all .5s;
+}
+
+.mouse-img.down {
+  transform: rotate(0deg);
+}
+
+.mouse-img.up {
+  transform: rotate(180deg);
+}
+
+.mouse-img.left {
+  transform: rotate(-90deg);
+}
+
+.mouse-img.right {
+  transform: rotate(90deg);
 }
 
 .para {
@@ -236,6 +257,13 @@ span.code {
   font-family: "Fira Code", monospace;
   display: flex;
   flex-direction: column;
+}
+
+.output-here .result {
+  text-align: right;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-style: oblique;
 }
 
 .output-here .text {
