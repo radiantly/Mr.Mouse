@@ -127,6 +127,15 @@ a.active::after {
   grid-template-rows: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(--gap);
 }
 
+.grid.dark .dark-overlay{
+  background: #525151;
+  grid-area: 1 / 1 / span 20 / span 20;
+}
+
+.grid.dark .cheese-img {
+  display: none;
+}
+
 .side {
   background-color: var(--v-light);
 }
@@ -138,8 +147,12 @@ a.active::after {
 }
 
 .grid .inter,
-.end {
+.grid .end {
   background-color: var(--muted);
+}
+
+.grid.dark .side, .grid.dark .inter, .grid.dark .end {
+  background: rgb(75, 75, 75);
 }
 
 .mouseWrap {
@@ -186,6 +199,9 @@ h2 {
 body:not(.L0) .only-L0,
 body:not(.L1) .only-L1,
 body:not(.L2) .only-L2,
+body:not(.L3) .only-L3,
+body:not(.L4) .only-L4,
+body:not(.L5) .only-L5,
 body:not(.completed) .completed,
 body.completed .not-completed,
 body.L0 .not-L0 {

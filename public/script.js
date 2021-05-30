@@ -17,7 +17,10 @@ const initGrid = ({mpos, cpos, walls = [], dark = false} = {}) => {
   grid.classList.remove("dark")
   grid.innerHTML = `<a href="#LN" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
   grid.insertAdjacentHTML("beforeend", `<a href="#LN" class="game-overlay completed"><div><h2>NEXT LEVEL</h2></div></a>`)
-  if (dark) grid.classList.add("dark")
+  if (dark) {
+    grid.classList.add("dark")
+    grid.insertAdjacentHTML("beforeend", '<div class="dark-overlay"></div>')
+  }
   const isWall = (row, col) => {
     for (const wall of walls) {
       if (wall[0] == row && wall[1] == col)
@@ -244,7 +247,8 @@ $(".run-btn").addEventListener("click", e => {
   $all(".hide-on-run").map(elem => elem.removeAttribute("open"));
   $(".output-here").innerHTML = "";
   $(".output-box").classList.remove("hidden");
-  const codeToExec = `(async () => {${code.replace(/(?:await )?(console\.log)/g, "await $1")}})()`;
+  let codeToExec = `(async () => {${code.replace(/(?:await )?(console\.log)/g, "await $1")}})()`;
+  codeToExec = codeToExec.replace(/cheese_position/g, '"G6"');
   window.console.log(codeToExec);
   try {
     eval(codeToExec);
