@@ -12,10 +12,20 @@ const gr = [];
 
 let state = {};
 
-const initGrid = ({mpos, cpos} = {}) => {
+const initGrid = ({mpos, cpos, walls = [], dark = false} = {}) => {
   // Empty grid if dirty
+  grid.classList.remove("dark")
   grid.innerHTML = `<a href="#LN" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
   grid.insertAdjacentHTML("beforeend", `<a href="#LN" class="game-overlay completed"><div><h2>NEXT LEVEL</h2></div></a>`)
+  if (dark) grid.classList.add("dark")
+  const isWall = (row, col) => {
+    for (const wall of walls) {
+      if (wall[0] == row && wall[1] == col)
+        return true;
+    }
+    return false;
+  };
+  
   // Add grid elements
   for (let row = 0; row <= rows; row++) {
     for (let col = 0; col <= rows; col++) {
@@ -29,14 +39,14 @@ const initGrid = ({mpos, cpos} = {}) => {
       const vside = document.createElement("div");
       vside.style.gridArea = `${row * 2 + 2} / ${col * 2 + 1}`;
       vside.classList.add("side");
-      if ([0, rows].includes(col) && row != rows) vside.classList.add("end");
+      if (([0, rows].includes(col) && row != rows) || isWall(row * 2 + 2, col * 2 + 1)) vside.classList.add("end");
       grid.appendChild(vside);
 
       // Horizontals
       const hside = document.createElement("div");
       hside.style.gridArea = `${row * 2 + 1} / ${col * 2 + 2}`;
       hside.classList.add("side");
-      if ([0, rows].includes(row) && col != rows) hside.classList.add("end");
+      if (([0, rows].includes(row) && col != rows)  || isWall(row * 2 + 1, col * 2 + 2)) hside.classList.add("end");
       grid.appendChild(hside);
     }
   }
@@ -75,20 +85,6 @@ const initGrid = ({mpos, cpos} = {}) => {
   grid.appendChild(cheese);
 };
 
-// for (let row = 0; row < elems; row++) {
-//   for (let col = 0; col < elems; col++) {
-//     const elem = document.createElement("div");
-//     if ([0, elems - 1].includes(row) || [0, elems - 1].includes(col))
-//       elem.classList.add("end");
-//     elem.classList.add(
-//       row % 2 && col % 2 ? "box" : row % 2 || col % 2 ? "side" : "inter"
-//     );
-
-//     gr[row * elems + col] = elem;
-//     grid.appendChild(elem);
-//   }
-// }
-
 const levelInfo = {
   L0: {
     mpos: { x: 7, y: 5 },
@@ -98,6 +94,24 @@ const levelInfo = {
     mpos: { x: 6, y: 6 },
     cpos: { x: 4, y: 7 }
   },
+  L2: {
+    mpos: {x: 2, y: 3},
+    cpos: {x: 5, y: 4},
+    walls: [[3, 2], [4, 5], [6, 5], [15, 14], [7, 8], [12, 11], [16, 5]]
+  },
+  L3: {
+    mpos: {x: 4, y: 7},
+    cpos: {x: 6, y: 4},
+    dark: true
+  },
+  L4: {
+    mpos: { x: 3, y: 6 },
+    cpos: { x: 7, y: 7 }
+  },
+  L5: {
+    mpos: { x: 7, y: 9 },
+    cpos: { x: 6, y: 6 }
+  },
 };
 
 const initLvl = level => {
@@ -105,7 +119,11 @@ const initLvl = level => {
   Object.assign(state, deepClone(levelInfo[level]));
 }
 
-const getL = text => text?.match(/L\d/)?.[0] || text?.match(/LN/) ? `L${1 + parseInt(state._activeL.slice(1))}` : null;
+const getL = text => {
+  const L = text?.match(/L\d/)?.[0];
+  if (L) return L;
+  return text?.match(/LN/) ? `L${1 + parseInt(state._activeL.slice(1))}` : null;
+}
 
 const cm = CodeMirror.fromTextArea($id("console"), {
   lineNumbers: true,
