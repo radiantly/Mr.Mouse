@@ -89,6 +89,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  flex-grow: 1;
 }
 
 a {
@@ -115,9 +116,6 @@ a.active::after {
 }
 
 .grid {
-  --side: 500px;
-  height: var(--side);
-  width: var(--side);
   display: grid;
   --rows: 11;
   --gap: 5px;
@@ -127,7 +125,7 @@ a.active::after {
   grid-template-rows: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(--gap);
 }
 
-.grid.dark .dark-overlay{
+.grid.dark .dark-overlay {
   background: #525151;
   grid-area: 1 / 1 / span 20 / span 20;
 }
@@ -151,7 +149,9 @@ a.active::after {
   background-color: var(--muted);
 }
 
-.grid.dark .side, .grid.dark .inter, .grid.dark .end {
+.grid.dark .side,
+.grid.dark .inter,
+.grid.dark .end {
   background: rgb(75, 75, 75);
 }
 
@@ -165,7 +165,7 @@ a.active::after {
   max-height: 99%;
   justify-self: center;
   align-self: center;
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .mouse-img.down {
@@ -219,7 +219,7 @@ a.game-overlay {
   justify-content: center;
   align-items: center;
   color: inherit;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 a.game-overlay:hover {
@@ -231,9 +231,9 @@ a.game-overlay:hover h2 {
 }
 
 .console-wrap {
-  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
   border-radius: 5px;
-  border: 1px solid rgba(34,36,38,.15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .cm-s-height {
@@ -244,8 +244,8 @@ a.game-overlay:hover h2 {
   font-family: "Fira Code", monospace;
 }
 
-.CodeMirror-empty { 
-  color: #999 !important; 
+.CodeMirror-empty {
+  color: #999 !important;
 }
 
 span.code {
