@@ -11,91 +11,19 @@ let state = {};
 
 initGrid();
 
-// const initGrid = ({ mpos, cpos, walls = [], dark = false } = {}) => {
-//   // Empty grid if dirty
-//   grid.classList.remove("dark");
-//   grid.innerHTML = `<a href="#LN" class="game-overlay only-L0"><div><h2>START GAME</h2></div></a>`;
-//   grid.insertAdjacentHTML(
-//     "beforeend",
-//     `<a href="#LN" class="game-overlay completed"><div><h2>NEXT LEVEL</h2></div></a>`
-//   );
-//   if (dark) {
-//     grid.classList.add("dark");
-//     grid.insertAdjacentHTML("beforeend", '<div class="dark-overlay"></div>');
-//   }
-//   const isWall = (row, col) => {
-//     for (const wall of walls) {
-//       if (wall[0] == row && wall[1] == col) return true;
-//     }
-//     return false;
-//   };
+const gridWrap = $(".grid-wrap");
 
-//   // Add grid elements
-//   for (let row = 0; row <= rows; row++) {
-//     for (let col = 0; col <= rows; col++) {
-//       // Center element
-//       const elem = document.createElement("div");
-//       elem.style.gridArea = `${row * 2 + 1} / ${col * 2 + 1}`;
-//       elem.classList.add("inter");
-//       grid.appendChild(elem);
+// Mouse
+const mouse = document.createElement("img");
+mouse.src = "mouse.png";
+mouse.classList.add("mouse-img", "grid-item", "grid-cell");
+gridWrap.appendChild(mouse);
 
-//       // Verticals
-//       const vside = document.createElement("div");
-//       vside.style.gridArea = `${row * 2 + 2} / ${col * 2 + 1}`;
-//       vside.classList.add("side");
-//       if (
-//         ([0, rows].includes(col) && row != rows) ||
-//         isWall(row * 2 + 2, col * 2 + 1)
-//       )
-//         vside.classList.add("end");
-//       grid.appendChild(vside);
-
-//       // Horizontals
-//       const hside = document.createElement("div");
-//       hside.style.gridArea = `${row * 2 + 1} / ${col * 2 + 2}`;
-//       hside.classList.add("side");
-//       if (
-//         ([0, rows].includes(row) && col != rows) ||
-//         isWall(row * 2 + 1, col * 2 + 2)
-//       )
-//         hside.classList.add("end");
-//       grid.appendChild(hside);
-//     }
-//   }
-
-//   // Add grid numbers/letters on the side
-//   for (let i = 1; i <= rows; i++) {
-//     const numElem = document.createElement("div");
-//     numElem.innerText = i;
-//     numElem.classList.add("number");
-//     numElem.style.gridArea = `${rows * 2 + 2} / ${i * 2}`;
-//     grid.appendChild(numElem);
-
-//     const alElem = document.createElement("div");
-//     alElem.innerText = String.fromCharCode(75 - i);
-//     alElem.classList.add("number");
-//     alElem.style.gridArea = `${i * 2} / ${rows * 2 + 2}`;
-//     grid.appendChild(alElem);
-//   }
-
-//   // Add mouse
-//   const mouseImg = document.createElement("img");
-//   mouseImg.src = "mouse.png";
-//   mouseImg.classList.add("mouse-img");
-
-//   const mouseWrap = document.createElement("div");
-//   mouseWrap.style.gridArea = `${mpos.y * 2} / ${mpos.x * 2} / span 1 / span 1`;
-//   mouseWrap.classList.add("mouseWrap");
-//   mouseWrap.appendChild(mouseImg);
-//   grid.appendChild(mouseWrap);
-
-//   // Cheese
-//   const cheese = document.createElement("img");
-//   cheese.src = "cheese.png";
-//   cheese.classList.add("cheese-img");
-//   cheese.style.gridArea = `${cpos.y * 2} / ${cpos.x * 2} / span 1 / span 1`;
-//   grid.appendChild(cheese);
-// };
+// Cheese
+const cheese = document.createElement("img");
+cheese.src = "cheese.png";
+cheese.classList.add("cheese-img", "grid-item", "grid-cell");
+gridWrap.appendChild(cheese);
 
 const levelInfo = {
   L0: {

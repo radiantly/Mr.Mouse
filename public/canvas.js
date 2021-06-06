@@ -1,5 +1,6 @@
 import { $id } from "./util.js";
 
+const root = document.documentElement;
 const canvas = $id("grid");
 console.info(canvas);
 const ctx = canvas.getContext("2d");
@@ -9,6 +10,9 @@ const borderPx = 5;
 const cellPx = 40;
 const size = (cellPx + borderPx) * (rows + 1);
 const fontSize = 22;
+root.style.setProperty("--grid-size", `${size}px`);
+root.style.setProperty("--grid-cellPx", `${cellPx}px`);
+root.style.setProperty("--grid-borderPx", `${borderPx}px`);
 
 const boxPx = rows * cellPx + (rows + 1) * borderPx;
 console.info(boxPx);
@@ -16,7 +20,7 @@ console.info(boxPx);
 // Set canvas size
 canvas.width = canvas.height = size;
 
-export const initGrid = () => {
+export const drawGrid = () => {
   // Draw grid lines
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#e0802113";
@@ -63,4 +67,8 @@ export const initGrid = () => {
       offset + yAdjustment
     );
   }
+};
+
+export const initGrid = () => {
+  drawGrid();
 };

@@ -115,44 +115,23 @@ a.active::after {
   content: " ←";
 }
 
-.grid {
-  display: grid;
-  --rows: 11;
-  --gap: 5px;
-  grid-template-columns: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(
-      --gap
-    );
-  grid-template-rows: repeat(var(--rows), var(--gap) minmax(0, 1fr)) var(--gap);
+.grid-wrap,
+.cvs {
+  height: var(--grid-size);
+  width: var(--grid-size);
+  position: relative;
 }
 
-.grid.dark .dark-overlay {
-  background: #525151;
-  grid-area: 1 / 1 / span 20 / span 20;
+.grid-item {
+  position: absolute;
+  top: var(--grid-borderPx);
+  left: var(--grid-borderPx);
 }
 
-.grid.dark .cheese-img {
-  display: none;
-}
-
-.side {
-  background-color: var(--v-light);
-}
-
-.grid .number {
-  justify-self: center;
-  align-self: center;
-  font-size: 20px;
-}
-
-.grid .inter,
-.grid .end {
-  background-color: var(--muted);
-}
-
-.grid.dark .side,
-.grid.dark .inter,
-.grid.dark .end {
-  background: rgb(75, 75, 75);
+.grid-cell {
+  height: var(--grid-cellPx);
+  width: var(--grid-cellPx);
+  object-fit: contain;
 }
 
 .mouseWrap {
@@ -166,22 +145,6 @@ a.active::after {
   justify-self: center;
   align-self: center;
   transition: all 0.5s;
-}
-
-.mouse-img.down {
-  transform: rotate(0deg);
-}
-
-.mouse-img.up {
-  transform: rotate(180deg);
-}
-
-.mouse-img.left {
-  transform: rotate(-90deg);
-}
-
-.mouse-img.right {
-  transform: rotate(90deg);
 }
 
 .para {
